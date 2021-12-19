@@ -17,6 +17,7 @@ module.exports = {
           dark: "#FFD231",
         },
         brown: "#584D14",
+        gray: "#9A9FA5",
       },
       borderColor: {
         dark: {

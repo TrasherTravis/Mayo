@@ -72,7 +72,8 @@ export const TRANSLATIONS_EN = {
             close: "Close",
             pending: "Pending",
             or: "OR",
-            bnbAmount: "Select BNB amount",
+            // bnbAmount: "Select BNB amount",
+            bnbAmount: "Choose bet amount",
             quickPlay: "Enable Quickplay",
             notEnough: "You do not have enough BNB in your wallet to place a bet."
         },

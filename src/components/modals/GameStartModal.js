@@ -8,7 +8,7 @@ const GameStartModal = ({ activeGame, setActiveGame, gameHandler }) => {
       className={`modal game-start-modal ${activeGame ? "flex" : "hidden"} `}
     >
       <div className="modal-content flex justify-center items-start md:items-center text-center pt-8 relative">
-        <div className="close-modal" onClick={gameHandler}>
+        <div className="close-modal cursor-pointer" onClick={gameHandler}>
           <i className="fas fa-times"></i>
         </div>
         <div>
@@ -29,7 +29,7 @@ const GameStartModal = ({ activeGame, setActiveGame, gameHandler }) => {
           </button>
         </div>
       </div>
-      <p className="mt-10 text-lg text-gray-400">
+      <p className="mt-10 text-lg text-gray-400" onClick={gameHandler}>
         {t("modals.gameStart.close")}
       </p>
     </div>

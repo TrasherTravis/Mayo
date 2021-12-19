@@ -2,7 +2,6 @@
 import { useQuery } from '@apollo/client';
 import { useWeb3React } from "@web3-react/core";
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { ethers } from 'ethers';
 import { useCallback, useEffect, useRef, useState } from "react";
 import CountUp from "react-countup";
 import { useTranslation } from "react-i18next";
@@ -18,7 +17,6 @@ import LogoSVG from "../../assets/images/squid-moon-logo.svg";
 import StarSVG from "../../assets/images/star-vector.svg";
 import User from "../../assets/images/USER.png";
 import { walletConnect } from "../../hooks/wallet/Connectors";
-import { useStores } from '../../stores/RootStore';
 import { useIsWalletConnected } from '../../utils/helpers';
 import { QUERY_ME, QUERY_PLAYERS } from "../../utils/queries";
 import SelectWalletModal from "../modals/SelectWalletModal";
@@ -26,14 +24,11 @@ import "./style.css";
 
 const Index = ({ checkAuth }) => {
   const { t, i18n } = useTranslation();
-  const { chainStore } = useStores();
-  const { setPlayer, setPlayers, setTotalScore, leaderBoard, setLeaderBoard, getPayout } = chainStore;
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [eqxBalance, setEqxBalance] = useState(0);
   const { account, chainId, activate, library } = useWeb3React();
   const isWalletConnected = useIsWalletConnected();
-  // eslint-disable-next-line no-unused-vars
   const [me, setMe] = useState({ rewardClaimed: 0, score: 0 });
   const [sqmBalance, setSqmBalance] = useState(0.00);
   const [sqmRate, setSqmRate] = useState(0);
@@ -41,6 +36,7 @@ const Index = ({ checkAuth }) => {
   const pancakeAddr = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
   const usdtAddr = "0x55d398326f99059fF775485246999027B3197955";
   const [en, setEn] = useState('en')
+
   const { loading: playerQueryLoading, data: player } = useQuery(QUERY_ME, { variables: { id: account } });
   const { loading: playersQueryLoading, data: players } = useQuery(QUERY_PLAYERS, { variables: { orderBy: 'score' } });
   const dropdownRef = useRef(null);
@@ -60,17 +56,10 @@ const Index = ({ checkAuth }) => {
   }, [playerQueryLoading, player]);
 
   useEffect(() => {
-    if (!playersQueryLoading && players && !playerQueryLoading && player) {
-      const count = players.players.length > 12 ? Math.floor(players.players.length * 0.08) : players.players.length
-      const _players = players.players.slice(0, count)
-      const _totalScore = _players.reduce((prev, curr) => parseFloat(prev) + parseFloat(ethers.utils.formatEther(curr.score)), 0)
-      setLeaderBoard(_players);
-      setTotalScore(_totalScore)
-      setPlayer(player);
-      setPlayers(players);
+    if (!playersQueryLoading && players) {
       setRank(players.players.map(e => e.id.toLowerCase()).indexOf(account.toLowerCase()) + 1);
     }
-  }, [playersQueryLoading, account, player, players, setPlayer, setPlayers, setTotalScore, setLeaderBoard, playerQueryLoading]);
+  }, [playersQueryLoading, players, account]);
 
   const getBalance = useCallback(async () => {
     try {
@@ -123,10 +112,6 @@ const Index = ({ checkAuth }) => {
   }
 
   let menuRef = useRef(null);
-
-  const getMeFromLeaderBoard = () => {
-    return leaderBoard.find(p => p.id.toLowerCase() === account.toLowerCase());
-  }
 
   useEffect(() => {
     async function fetchData() {
@@ -193,9 +178,7 @@ const Index = ({ checkAuth }) => {
                   </div>
                   <p className="text-base font-medium">{t("header.rank")} {rank}</p>
                   <p className="text-sm  text-gray-500 ml-2 font-normal">
-                    {t("header.payout")} {
-                      getMeFromLeaderBoard() && leaderBoard.length ? getPayout(getMeFromLeaderBoard().score) : 0
-                    }
+                    {t("header.payout")} {me.score}
                   </p>
                 </div>
               </div>
@@ -299,9 +282,7 @@ const Index = ({ checkAuth }) => {
             </div>
             <p className="text-base font-medium">{t("header.rank")} 23</p>
             <p className="text-sm  text-gray-500 ml-2 font-normal">
-              {t("header.payout")} {
-                getMeFromLeaderBoard() && leaderBoard.length ? getPayout(getMeFromLeaderBoard().score) : 0
-              }
+              {t("header.payout")} {me.score}
             </p>
           </div>
         </div>

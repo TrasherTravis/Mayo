@@ -22,14 +22,14 @@ const Home = () => {
   if (error) console.log(`Error! ${error.message}`);
 
   useEffect(() => {
-    if (isWalletConnected) {
+    if(isWalletConnected) {
       play();
     } else {
       music.stop();
     }
   }, [isWalletConnected, music, play])
-  useEffect(() => {
-    if (!loading) {
+  useEffect(()=>{
+    if (!loading){
       console.log(bet)
     }
   }, [loading, bet]);

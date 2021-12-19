@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useCallback } from "react";
+import { useWeb3React } from "@web3-react/core";
 import { ethers } from 'ethers';
+import { useQuery } from '@apollo/client';
 import { useTranslation } from "react-i18next";
 
 import GreenTag from "../../assets/images/GreenTag.png";
@@ -16,17 +18,40 @@ import Dollor4 from "../../assets/images/Dollor4.png";
 
 import gameAbi from "../../assets/abi/game.json";
 
+import usePrize from '../../hooks/prize/usePrize';
+import { QUERY_ME, QUERY_PLAYERS } from "../../utils/queries";
 import { parseToUsdPriceFormat, GAME_ADDRESS } from '../../utils/helpers';
 
 import "./style.css";
-import { useStores } from "../../stores/RootStore";
 
 const PrevGame = () => {
+  const prizes = usePrize()
+
   const { t } = useTranslation();
-  const { chainStore } = useStores();
-  const { prize, getPayout, player, leaderBoard, totalScore } = chainStore;
   const [currentView, setCurrentView] = useState(10);
+  const [data, setData] = useState([]);
+  const { account } = useWeb3React();
+  const [me, setMe] = useState({ rewardClaimed: 0, score: 0 });
+  const { loading: playersQueryLoading, data: players } = useQuery(QUERY_PLAYERS, { variables: { orderBy: 'score' } });
+  const { loading: playerQueryLoading, data: player } = useQuery(QUERY_ME, { variables: { id: account } });
   const [remain, setRemain] = useState(0)
+  const [totalScore, setTotalScore] = useState(0)
+
+  useEffect(() => {
+    if (!playersQueryLoading && players) {
+      const count = players.players.length > 12 ? Math.floor(players.players.length * 0.08) : players.players.length
+      const _players = players.players.slice(0, count)
+      const _totalScore = _players.reduce((prev, curr) => parseFloat(prev) + parseFloat(ethers.utils.formatEther(curr.score)), 0)
+      setData(_players);
+      setTotalScore(_totalScore)
+    }
+  }, [playersQueryLoading, players]);
+
+  useEffect(() => {
+    if (!playerQueryLoading && player && player.player) {
+      setMe(player.player);
+    }
+  }, [playerQueryLoading, player]);
 
   const listenEvent = useCallback(async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -43,6 +68,10 @@ const PrevGame = () => {
     setRemain(diffDays)
   }, []);
 
+  const payoutCalc = useCallback((score) => {
+    const payout = (parseFloat(ethers.utils.formatEther(score)) * parseFloat(prizes) / totalScore).toFixed(2)
+    return payout
+  }, [prizes, totalScore])
   useEffect(() => {
     async function fetchData() {
       await listenEvent();
@@ -66,13 +95,13 @@ const PrevGame = () => {
             <div className="ml-4 relative ">
               <img src={RedTag} alt="" />
               <div className="score-tag-content">
-                <h3 className="text-base md:text-xl font-bold">{player.score}</h3>
+                <h3 className="text-base md:text-xl font-bold">{me.score}</h3>
                 <p className="text-xs md:text-sm">{t("sections.leaderboard.yourScore")}</p>
               </div>
             </div>
           </div>
           <h2 className="font-mineCraft text-4xl md:text-6xl uppercase leading-10">
-            {parseToUsdPriceFormat(prize)} {t("sections.leaderboard.prize")}
+            {parseToUsdPriceFormat(prizes)} {t("sections.leaderboard.prize")}
           </h2>
           <p className="text-yellow text-base  md:text-2xl mt-4">
             {remain} {t("sections.leaderboard.announced")}
@@ -89,7 +118,7 @@ const PrevGame = () => {
           </div>
         </div>
         <div className="cards-wrapper mt-20 md:mt-0">
-          {leaderBoard && leaderBoard.slice(0, currentView).map((v, i) => (
+          {data && data.slice(0, currentView).map((v, i) => (
             <div
               key={i}
               className={`ml-1  rounded-3xl grid grid-cols-1 md:grid-cols-12 mt-8 relative winner-card text-brown ${i + 1 === 1
@@ -173,7 +202,7 @@ const PrevGame = () => {
                       alt=""
                     />
                     <span className="inline-block ml-2 font-bold ">
-                      ${getPayout(v.score)}
+                      ${payoutCalc(v.score)}
                     </span>
                   </p>
                 </div>
@@ -191,19 +220,19 @@ const PrevGame = () => {
                     alt=""
                   />
                   <span className="inline-block ml-2 font-bold ">
-                    ${getPayout(v.score)}
+                    ${payoutCalc(v.score)}
                   </span>
                 </p>
               </div>
             </div>
           ))}
-          {leaderBoard && leaderBoard.length > 10 && <div
-            className={`cards-wrapper-overlay  ${currentView === leaderBoard.length ? "hidden" : "flex"
+          {data && data.length > 10 && <div
+            className={`cards-wrapper-overlay  ${currentView === data.length ? "hidden" : "flex"
               } items-end justify-center`}
           >
             <button
               className={` flex justify-center items-center`}
-              onClick={() => setCurrentView(leaderBoard.length)}
+              onClick={() => setCurrentView(data.length)}
             >
               <p className="mr-2">{t("sections.leaderboard.fullLeaderboard")}</p>
               <i className="fas fa-arrow-down"></i>

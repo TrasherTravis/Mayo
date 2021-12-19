@@ -156,27 +156,48 @@
   justify-content: center;
   align-items: center;
 }
+.wrapper {
+  min-height: 110px;
+}
+.select-bnb {
+  transition: 0.4s;
+  min-width: 230px;
+}
 
 .select-bnb.active {
   background-color: #ffae02;
-  color: black;
-  font-weight: bold;
+  color: white;
+  padding: 6px 0;
+}
+
+.shape-wrapper {
+  min-height: 120px;
+  max-width: 144px;
+  position: absolute;
+  transform: translateY(-5px);
+  top: 0;
+  left: 0;
+}
+.bg-shape {
+
 }
 
 .tick {
-  background-color: white;
+  background-color: black;
   width: 30px;
   height: 30px;
   border-radius: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #ffae02;
+  color: white;
   position: absolute;
-  right: 0;
+  /*right: 105px;*/
+  left: 107px;
   top: 0;
   transform: translate(30%, -30%);
   display: none;
+  z-index: 100;
 }
 
 .select-bnb.active .tick {
@@ -261,6 +282,10 @@
 }
 
 @media (max-width: 768px) {
+  .tick {
+    right: 90px;
+  }
+
   .even, .odd {
     padding: 70px 10px;
     font-size: 35px;
