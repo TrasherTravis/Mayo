@@ -1,0 +1,237 @@
+.modal {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 0 16px;
+}
+
+.game-start-modal,
+.win-modal,
+.lost-modal,
+.no-marble-modal,
+.marble-modal {
+  background-image: url(../../assets/images/game-start-modal-bg.png);
+  background-color: #1d181a;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.marble-modal {
+  background-image: url(../../assets/images/marble-popup.jpg);
+}
+.win-modal {
+  background-image: url(../../assets/images/win-modal-bg.jpg);
+  background-color: transparent;
+}
+.lost-modal {
+  background-image: url(../../assets/images/lost-modal-bg.jpg);
+}
+.connect-wallet-modal {
+  background-image: none;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.no-marble-modal {
+  background-image: url(../../assets/images/no-marble-modal-bg.png);
+}
+.no-marble-modal .modal-content {
+  background-image: none;
+}
+.lost-modal .modal-content {
+  background-image: none;
+  background-color: #371c21;
+}
+.win-modal .modal-content {
+  background-image: none;
+  background-color: #1c371d;
+}
+
+.win-modal .modal-content h2,
+.lost-modal .modal-content h2,
+.no-marble-modal .modal-content h2 {
+  max-width: 700px;
+  width: 100%;
+}
+.win-modal .modal-content .score p {
+  color: #38c669;
+}
+.lost-modal .modal-content .score p {
+  color: #ff274e;
+}
+.no-marble-modal .modal-content .score p {
+  color: #fcec60;
+}
+.marble-modal .modal-content {
+  max-width: 420px;
+  width: 100%;
+  background-image: none;
+  background-color: #1e2124;
+}
+.modal-content {
+  max-width: 700px;
+  width: 100%;
+  background-color: #371c21;
+  min-height: 500px;
+  border-radius: 30px;
+  background-image: url(../../assets/images/game-start-modal.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.modal-content h2 {
+  font-size: 55px;
+  line-height: 87%;
+  max-width: 500px;
+  width: 90%;
+  /* margin: auto; */
+  margin-right: auto;
+  margin-left: auto;
+}
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 20px;
+}
+.close-modal i {
+  cursor: pointer;
+}
+
+.marble-modal .marble-bnb,
+.marble-modal .marble-sqm {
+  background-image: url(../../assets/images/marble-popup-bnb-img.jpg);
+
+  background-position: right top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+}
+.marble-modal .marble-sqm {
+  background-image: url(../../assets/images/marble-popup-sqm-img.jpg);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+}
+
+.first-mini {
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.8);
+  position: relative;
+}
+/* .first-mini::before {
+  position: absolute;
+  content: "";
+  width: 80%;
+  height: 80%;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  background-color: yellow;
+  z-index: 1;
+} */
+
+.marble-text {
+  background: rgb(239, 255, 60);
+  background: linear-gradient(
+    266deg,
+    rgba(239, 255, 60, 1) 0%,
+    rgba(239, 255, 60, 0.7) 60%,
+    rgba(2, 2, 2, 0.5) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+@media (max-width: 768px) {
+  .modal-content h2 {
+    font-size: 35px;
+  }
+  .win-modal .modal-content h2,
+  .lost-modal .modal-content h2 {
+    font-size: 40px;
+  }
+  .game-start-modal .modal-content {
+    background-image: url(../../assets/images/game-start-modal-mobile.png);
+    padding-bottom: 250px;
+  }
+  .close-modal {
+    top: -10%;
+    right: 0;
+    background-color: white;
+    color: gray;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+  }
+}
+
+.win-modal .modal-content,
+.lost-modal .modal-content,
+.no-marble-modal .modal-content {
+  position: relative;
+  overflow: hidden;
+}
+.win-modal .modal-content .gif,
+.lost-modal .modal-content .gif,
+.no-marble-modal .modal-content .gif {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.win-modal .modal-content .gif-overlay,
+.lost-modal .modal-content .gif-overlay,
+.no-marble-modal .modal-content .gif-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.win-modal-btm,
+.lost-modal-btm,
+.no-marble-modal-btm {
+  position: absolute;
+  bottom: 15%;
+  left: 0;
+  width: 100%;
+}
+.close-modal {
+  z-index: 999;
+}
+
+.wallet-modal {
+  background-color: #18191D;
+  max-width: 400px;
+  width: 100%;
+  background-image: none;
+}
+
+.wallet-item {
+  background-color: #3c3535;
+  cursor: pointer;
+  outline: none;
+  border: 1px solid rgb(70, 72, 80);
+  min-height: 54px;
+  transition: border-color 0.25s;
+}
+
+.wallet-item:hover {
+  border: #fcec60 solid 1px;
+}
+
+.wallet-modal h5 {
+  font-size: 25px;
+}
+
+.wallet-modal .close-icon {
+  cursor: pointer;
+}

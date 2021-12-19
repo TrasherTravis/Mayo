@@ -1,0 +1,76 @@
+.prev-game-card svg * {
+  fill: white;
+  width: 20px;
+}
+.prev-game-card {
+  border: 2px solid #25272c;
+  background-color: #25272c;
+}
+.prev-game-card span {
+  font-size: 10px;
+  display: inline-block;
+  line-height: 16px;
+}
+
+.prev-game-card .prev-game-card-btm-right {
+  color: #D80027;
+}
+.prev-game-card .prev-game-card-btm-right svg * {
+  fill: #D80027;
+}
+
+.prev-game-card.win .prev-game-card-btm-right {
+  color: #38c669;
+}
+
+.prev-game-card.win .prev-game-card-btm-right svg * {
+  fill: #38c669;
+}
+.game-card-container {
+  padding-bottom: 40px;
+  position: relative;
+}
+.game-card-container::-webkit-scrollbar {
+  height: 4px;
+  border-radius: 10px;
+}
+
+.game-card-container::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(53, 57, 69, 0.5);
+  box-shadow: inset 0 0 6px rgba(53, 57, 69, 0.5);
+}
+
+.game-card-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5);
+  outline: 1px solid #353945;
+  border-radius: 10px;
+}
+.prev-game .container::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: rgb(20, 20, 22);
+  background: linear-gradient(
+    266deg,
+    rgba(20, 20, 22, 1) 0%,
+    rgba(20, 20, 22, 0.9) 30%,
+    rgba(20, 20, 22, 0) 100%
+  );
+  width: 10%;
+}
+/* .game-card-container::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: rgb(20, 20, 22);
+  background: linear-gradient(
+    266deg,
+    rgba(20, 20, 22, 1) 0%,
+    rgba(20, 20, 22, 0) 100%
+  );
+  width: 10%;
+} */

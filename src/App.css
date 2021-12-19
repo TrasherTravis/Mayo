@@ -1,0 +1,12 @@
+body,
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+body {
+  position: relative;
+}
+.loading {
+  background-image: url('./assets/images/hero-bg.png');
+  height: 100vh;
+}

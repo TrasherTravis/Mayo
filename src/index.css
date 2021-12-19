@@ -1,0 +1,14 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Minercraftory Regular";
+    font-style: normal;
+    font-weight: normal;
+    src: local("Minercraftory Regular"), url(./assets/font/Minercraftory.woff) format("woff");
+  }
+}
